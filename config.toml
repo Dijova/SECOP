@@ -1,0 +1,68 @@
+# =====================================================================
+#  Configuración de la extracción de procesos SECOP II
+#  Edite este archivo para cambiar QUÉ se busca y DÓNDE se busca.
+#  No necesita tocar el código Python.
+# =====================================================================
+
+[fuente]
+# Portal de datos abiertos de Colombia (Socrata).
+dominio = "www.datos.gov.co"
+# Conjunto de datos "SECOP II - Procesos de Contratación".
+dataset = "p6dx-8zbt"
+# Columnas donde se buscan las palabras. Si `python -m secop probar`
+# muestra otros nombres, corríjalos aquí.
+campos_busqueda = ["descripci_n_del_procedimiento", "nombre_del_procedimiento"]
+# Columna de fecha usada para los filtros de fecha y para ordenar.
+campo_fecha = "fecha_de_publicacion_del"
+# Registros por página (máximo permitido por la API: 50000).
+tamano_pagina = 10000
+
+[filtros]
+# Deje vacío ("") cualquier filtro que no quiera usar.
+fecha_desde = "2024-01-01"      # formato AAAA-MM-DD
+fecha_hasta = ""                # formato AAAA-MM-DD
+departamento = ""               # ej. "Antioquia" (columna departamento_entidad)
+ciudad = ""                     # ej. "Medellín"  (columna ciudad_entidad)
+entidad_contiene = ""           # ej. "SECRETARIA DE SALUD"
+# Condición SoQL adicional, para usuarios avanzados.
+# ej. "estado_del_procedimiento = 'Adjudicado'"
+where_extra = ""
+
+# ---------------------------------------------------------------------
+#  Búsquedas. Cada bloque [[busquedas]] genera una hoja en el Excel.
+#
+#  - frases: el proceso se incluye si contiene CUALQUIERA de las frases.
+#  - todas:  el proceso se incluye solo si contiene TODAS las frases.
+#  (Puede usar una de las dos o ambas a la vez.)
+#
+#  No importan las mayúsculas. Escriba las palabras CON tilde: el
+#  programa añade solo la versión sin tilde (LOGÍSTICOS -> LOGISTICOS).
+# ---------------------------------------------------------------------
+
+[[busquedas]]
+nombre = "servicios_logisticos"
+frases = ["SERVICIOS LOGÍSTICOS", "OPERADOR LOGÍSTICO", "APOYO LOGÍSTICO"]
+
+[[busquedas]]
+nombre = "salud_mental"
+# Objeto del contrato del ejemplo: promoción de la salud mental,
+# prevención de riesgo psicosocial y redes de apoyo comunitario.
+todas = ["SALUD MENTAL", "PSICOSOCIAL"]
+
+[[busquedas]]
+nombre = "salud_mental_texto_exacto"
+frases = [
+  "PRESTAR SERVICIOS PROFESIONALES Y DE APOYO A LA GESTIÓN, PARA LA FORMULACIÓN, IMPLEMENTACIÓN, EJECUCIÓN Y FORTALECIMIENTO DE ESTRATEGIAS, PROGRAMAS, CAMPAÑAS Y ACCIONES INTEGRALES ORIENTADAS A LA PROMOCIÓN DE LA SALUD MENTAL",
+]
+
+[[busquedas]]
+nombre = "eventos"
+frases = ["EVENTOS"]
+
+[[busquedas]]
+nombre = "capacitaciones"
+frases = ["CAPACITACIONES", "CAPACITACIÓN"]
+
+[[busquedas]]
+nombre = "procesos_de_formacion"
+frases = ["PROCESOS DE FORMACIÓN"]
